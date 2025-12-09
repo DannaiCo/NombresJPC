@@ -35,13 +35,28 @@
 
     #nombres {
       position: absolute;
-      bottom: 22vh;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 3;
+    }
+
+    /* Contenedores independientes */
+    .bloque-nombre,
+    .bloque-deseo1,
+    .bloque-deseo2 {
+      position: absolute;
       left: 50%;
       transform: translateX(-50%);
       width: 80vw;
       text-align: center;
-      z-index: 3;
     }
+
+    /* Ajusta libremente la posición vertical de cada uno */
+    .bloque-nombre { top: 55vh; }
+    .bloque-deseo1 { top: 62vh; }
+    .bloque-deseo2 { top: 69vh; }
 
     .mensaje {
       color: #1A3869;
@@ -66,9 +81,19 @@
     </video>
 
     <div id="nombres">
-      <div class="mensaje nombre"></div>
-      <div class="mensaje deseo1"></div>
-      <div class="mensaje deseo2"></div>
+
+      <div class="bloque-nombre">
+        <div class="mensaje nombre"></div>
+      </div>
+
+      <div class="bloque-deseo1">
+        <div class="mensaje deseo1"></div>
+      </div>
+
+      <div class="bloque-deseo2">
+        <div class="mensaje deseo2"></div>
+      </div>
+
     </div>
   </div>
 
@@ -119,19 +144,6 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
