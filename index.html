@@ -66,7 +66,7 @@
     </video>
 
     <div id="nombres">
-      <div class="mensaje para"></div>
+      <div class="mensaje nombre"></div>
       <div class="mensaje deseo1"></div>
       <div class="mensaje deseo2"></div>
     </div>
@@ -78,7 +78,7 @@
   fetch(url)
     .then(res => res.json())
     .then(aprobados => {
-      const elPara = document.querySelector(".para");
+      const elPara = document.querySelector(".nombre");
       const elDeseo1 = document.querySelector(".deseo1");
       const elDeseo2 = document.querySelector(".deseo2");
 
@@ -92,18 +92,18 @@
       let index = Math.floor(Math.random() * aprobados.length);
 
       function mostrar(i) {
-        elPara.classList.remove("mostrar");
+        elnombre.classList.remove("mostrar");
         elDeseo1.classList.remove("mostrar");
         elDeseo2.classList.remove("mostrar");
 
         setTimeout(() => {
           const item = aprobados[i];
 
-          elPara.innerText = (item.para || "--").toUpperCase();
+          elPara.innerText = (item.nombre || "--").toUpperCase();
           elDeseo1.innerText = item.deseo1 ? `• ${item.deseo1}` : "";
           elDeseo2.innerText = item.deseo2 ? `• ${item.deseo2}` : "";
 
-          elPara.classList.add("mostrar");
+          elnombre.classList.add("mostrar");
           elDeseo1.classList.add("mostrar");
           elDeseo2.classList.add("mostrar");
         }, 300);
@@ -119,6 +119,7 @@
 </script>
 </body>
 </html>
+
 
 
 
