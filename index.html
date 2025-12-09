@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Día del padre - iCo Medios</title>
+  <title>Navidad - iCo Medios</title>
   <meta http-equiv="refresh" content="180">
 
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
 
   <style>
      html, body {
@@ -33,10 +33,9 @@
       z-index: 0;
     }
 
-    /* --- NUEVO CONTENEDOR CENTRADO --- */
     #nombres {
       position: absolute;
-      bottom: 26vh;
+      bottom: 22vh;
       left: 50%;
       transform: translateX(-50%);
       width: 80vw;
@@ -45,14 +44,13 @@
     }
 
     .mensaje {
-      position: relative;
-      color: #FFFF;
-      font-size: 5vw;
-      font-style: normal;
+      color: #FFF;
+      font-size: 4.5vw;
       font-family: "Berkshire Swash", serif;
       font-weight: 400;
       opacity: 0;
       transition: opacity 0.9s ease-in;
+      margin: 1vh 0;
     }
 
     .mensaje.mostrar {
@@ -69,45 +67,59 @@
 
     <div id="nombres">
       <div class="mensaje para"></div>
+      <div class="mensaje deseo1"></div>
+      <div class="mensaje deseo2"></div>
     </div>
   </div>
 
  <script>
-  const url = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLi163p8uPjxEWAgWulNW28C2CmC_0Cyvlc7GQpVJIPBDO7ytkcm0xnqtAsheZ3cz0iW8BdGmrMTztSSCN3vEab2IbAOsVHcf0T1YeeizNAWOUKLZ7AJFSUgTZgSLQPialT_HtpHL_AVlBobzMUOEdi84hMs1cvpmnfQVT0pOI50HD6WWlOAURe5Titv3NUwvUqx7PF9t7N3Em-QJxIOkBldcBuT2eCMjiFYL0kYSaOCe9uUmrpr4VWUxQ9b9ChN7myicj5aE-gV_ztthRvb0wdtMtWWmA&lib=MMOmiwsRYrDwEjRLxl3Qoop-pvmjiA198";
+  const url = "TU_URL_AQUI";
 
   fetch(url)
     .then(res => res.json())
     .then(aprobados => {
-      const contenedorMensaje = document.querySelector(".para");
+      const elPara = document.querySelector(".para");
+      const elDeseo1 = document.querySelector(".deseo1");
+      const elDeseo2 = document.querySelector(".deseo2");
 
       if (!aprobados || aprobados.length === 0) {
-        contenedorMensaje.innerText = "--";
+        elPara.innerText = "--";
+        elDeseo1.innerText = "";
+        elDeseo2.innerText = "";
         return;
       }
 
-      // índice inicial aleatorio
       let index = Math.floor(Math.random() * aprobados.length);
 
-      function mostrarNombre(i) {
-        contenedorMensaje.classList.remove("mostrar");
+      function mostrar(i) {
+        elPara.classList.remove("mostrar");
+        elDeseo1.classList.remove("mostrar");
+        elDeseo2.classList.remove("mostrar");
+
         setTimeout(() => {
-          contenedorMensaje.innerText = (aprobados[i].para || "--").toUpperCase();
-          contenedorMensaje.classList.add("mostrar");
-        }, 300); // breve fade-out antes del cambio
+          const item = aprobados[i];
+
+          elPara.innerText = (item.para || "--").toUpperCase();
+          elDeseo1.innerText = item.deseo1 ? `• ${item.deseo1}` : "";
+          elDeseo2.innerText = item.deseo2 ? `• ${item.deseo2}` : "";
+
+          elPara.classList.add("mostrar");
+          elDeseo1.classList.add("mostrar");
+          elDeseo2.classList.add("mostrar");
+        }, 300);
       }
 
-      // mostrar el primero
-      mostrarNombre(index);
+      mostrar(index);
 
-      // rotar cada 5 segundos
       setInterval(() => {
         index = (index + 1) % aprobados.length;
-        mostrarNombre(index);
+        mostrar(index);
       }, 5000);
     });
 </script>
 </body>
 </html>
+
 
 
 
