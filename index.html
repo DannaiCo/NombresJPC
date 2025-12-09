@@ -78,12 +78,12 @@
   fetch(url)
     .then(res => res.json())
     .then(aprobados => {
-      const elPara = document.querySelector(".nombre");
+      const elnombre = document.querySelector(".nombre");
       const elDeseo1 = document.querySelector(".deseo1");
       const elDeseo2 = document.querySelector(".deseo2");
 
       if (!aprobados || aprobados.length === 0) {
-        elPara.innerText = "--";
+        elnombre.innerText = "--";
         elDeseo1.innerText = "";
         elDeseo2.innerText = "";
         return;
@@ -119,6 +119,7 @@
 </script>
 </body>
 </html>
+
 
 
 
