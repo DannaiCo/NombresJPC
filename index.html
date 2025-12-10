@@ -54,9 +54,9 @@
     }
 
     /* Ajusta libremente la posición vertical de cada uno */
-    .bloque-nombre { top: 55vh; }
-    .bloque-deseo1 { top: 62vh; }
-    .bloque-deseo2 { top: 69vh; }
+    .bloque-nombre { top: 46vh; }
+    .bloque-deseo1 { top: 63vh; }
+    .bloque-deseo2 { top: 70vh; }
 
     .mensaje {
       color: #1A3869;
@@ -125,8 +125,8 @@
           const item = aprobados[i];
 
           elnombre.innerText = (item.nombre || "--").toUpperCase();
-          elDeseo1.innerText = item.deseo1 ? `• ${item.deseo1}` : "";
-          elDeseo2.innerText = item.deseo2 ? `• ${item.deseo2}` : "";
+          elDeseo1.innerText = item.deseo1 ? ` ${item.deseo1}` : "";
+          elDeseo2.innerText = item.deseo2 ? ` ${item.deseo2}` : "";
 
           elnombre.classList.add("mostrar");
           elDeseo1.classList.add("mostrar");
@@ -144,6 +144,7 @@
 </script>
 </body>
 </html>
+
 
 
 
