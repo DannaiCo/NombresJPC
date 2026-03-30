@@ -1,153 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Navidad - iCo Medios</title>
-  <meta http-equiv="refresh" content="180">
+  <head>
+    <meta charset="UTF-8" />
+    <title>semanasanta</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <!-- Fuente correcta -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet" />
 
-  <style>
-     html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      overflow: hidden;
-    }
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        width: 100%;
+        height: 100%;
+      }
 
-    .contenedor {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
+      .contenedor-total {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 768px;
+        height: 768px;
+        transform-origin: top left;
+      }
 
-    video#fondoVideo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-    }
+      video#fondo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 768px;
+        height: 768px;
+        object-fit: cover;
+        z-index: 0;
+      }
 
-    #nombres {
-      position: absolute;
-      width: 100vw;
-      height: 100vh;
-      top: 0;
-      left: 0;
-      z-index: 3;
-    }
+      .contenedor-frase {
+        position: absolute;
+        top: 251px;
+        left: 60px;
+        width: 650px;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+      }
 
-    /* Contenedores independientes */
-    .bloque-nombre,
-    .bloque-deseo1,
-    .bloque-deseo2 {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80vw;
-      text-align: center;
-    }
+      #frase {
+        font-size: 55px;
+        color: white;
+        font-family: "Dela Gothic One", sans-serif;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="contenedor-total" id="contenedor">
+      <video id="fondo" autoplay muted loop playsinline>
+        <source src="fondo.mp4" type="video/mp4" />
+      </video>
 
-    /* Ajusta libremente la posición vertical de cada uno */
-    .bloque-nombre { top: 47vh; }
-    .bloque-deseo1 { top: 62vh; }
-    .bloque-deseo2 { top: 67vh; }
-
-    .mensaje {
-      color: #1A3869;
-      font-size: 4.5vw;
-      font-family: "Berkshire Swash", serif;
-      font-weight: 400;
-      opacity: 0;
-      transition: opacity 0.9s ease-in;
-      margin: 1vh 0;
-    }
-
-    .mensaje.mostrar {
-      opacity: 1;
-    }
-  </style>
-</head>
-<body>
-  <div class="contenedor">
-    <video autoplay loop muted playsinline id="fondoVideo">
-      <source src="fondo.mp4" type="video/mp4">
-      Tu navegador no soporta video.
-    </video>
-
-    <div id="nombres">
-
-      <div class="bloque-nombre">
-        <div class="mensaje nombre"></div>
+      <div class="contenedor-frase">
+        <div id="frase">Cargando frase...</div>
       </div>
-
-      <div class="bloque-deseo1">
-        <div class="mensaje deseo1"></div>
-      </div>
-
-      <div class="bloque-deseo2">
-        <div class="mensaje deseo2"></div>
-      </div>
-
     </div>
-  </div>
 
- <script>
-  const url = "https://script.google.com/macros/s/AKfycbwdj28x2XpZ4nrzo8R67KA3E-OSm44CWrPCXRntUuJxBoZVOjPUeR_tyaSWTj7DIs9CVQ/exec";
+    <script>
+      const frases = [
+        "Aún estás a tiempo de empezar de nuevo.",
+        "Perdonar también te libera.",
+        "Agradecer cambia el día.",
+        "Alguien necesita tu ayuda hoy.",
+        "Una palabra amable cambia el día.",
+        "Hoy puedes elegir la calma.",
+        "Lo simple también transforma.",
+        "Ayudar también te cambia.",
+        "Un momento de silencio ayuda."
+      ];
 
-  fetch(url)
-    .then(res => res.json())
-    .then(aprobados => {
-      const elnombre = document.querySelector(".nombre");
-      const elDeseo1 = document.querySelector(".deseo1");
-      const elDeseo2 = document.querySelector(".deseo2");
+      const elemento = document.getElementById("frase");
 
-      if (!aprobados || aprobados.length === 0) {
-        elnombre.innerText = "--";
-        elDeseo1.innerText = "";
-        elDeseo2.innerText = "";
-        return;
+      function cambiarFrase() {
+        const randomIndex = Math.floor(Math.random() * frases.length);
+        elemento.textContent = frases[randomIndex];
       }
 
-      let index = Math.floor(Math.random() * aprobados.length);
+      cambiarFrase();
+      setInterval(cambiarFrase, 10000);
 
-      function mostrar(i) {
-        elnombre.classList.remove("mostrar");
-        elDeseo1.classList.remove("mostrar");
-        elDeseo2.classList.remove("mostrar");
-
-        setTimeout(() => {
-          const item = aprobados[i];
-
-          elnombre.innerText = (item.nombre || "--").toUpperCase();
-          elDeseo1.innerText = item.deseo1 ? ` ${item.deseo1}` : "";
-          elDeseo2.innerText = item.deseo2 ? ` ${item.deseo2}` : "";
-
-          elnombre.classList.add("mostrar");
-          elDeseo1.classList.add("mostrar");
-          elDeseo2.classList.add("mostrar");
-        }, 300);
+      function escalarPantalla() {
+        const escalaX = window.innerWidth / 768;
+        const escalaY = window.innerHeight / 768;
+        const escala = Math.min(escalaX, escalaY);
+        document.getElementById("contenedor").style.transform = `scale(${escala})`;
       }
 
-      mostrar(index);
-
-      setInterval(() => {
-        index = (index + 1) % aprobados.length;
-        mostrar(index);
-      }, 5000);
-    });
-</script>
-</body>
+      window.addEventListener("resize", escalarPantalla);
+      escalarPantalla();
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
