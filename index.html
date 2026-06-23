@@ -2,107 +2,185 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>semanasanta</title>
+    <title>Día de la madre - iCo Medios</title>
 
-    <!-- Fuente correcta -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet" />
+    <meta http-equiv="refresh" content="180" />
 
+    <!-- FUENTE -->
+    <link rel="stylesheet" href="https://use.typekit.net/vsp7vcb.css" />
     <style>
       html,
       body {
         margin: 0;
         padding: 0;
-        overflow: hidden;
-        background: #000;
         width: 100%;
         height: 100%;
+        overflow: hidden;
+        background: #ffffff;
       }
 
-      .contenedor-total {
-        position: absolute;
-        top: 0;
-        left: 0;
+      .contenedor {
+        position: relative;
+
         width: 768px;
         height: 768px;
+
+        overflow: hidden;
+
         transform-origin: top left;
       }
 
-      video#fondo {
+      /* VIDEO */
+      #fondoVideo {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 768px;
-        height: 768px;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         z-index: 0;
       }
 
-      .contenedor-frase {
+      /* CONTENEDOR TEXTO */
+      /* CONTENEDOR GENERAL */
+      #nombres {
         position: absolute;
-        top: 251px;
-        left: 60px;
-        width: 650px;
-        height: 350px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
+        inset: 0;
+        z-index: 5;
       }
 
-      #frase {
-        font-size: 55px;
-        color: white;
-        font-family: "Dela Gothic One", sans-serif;
-        letter-spacing: 2px;
+      /* NOMBRE MAMÁ */
+      .nombre {
+        position: absolute;
+
+        top: 500px;
+        left: 0px;
+
+        width: 200px;
+
         text-align: center;
+
+        color: #0000ec;
+
+        font-size: 89px;
+
+        font-family: "filson-soft", sans-serif;
+
+        font-weight: 700;
+
+        font-style: normal;
+
+        opacity: 0;
+
+        transition: opacity 0.8s ease;
+      }
+
+      /* DICHO */
+      .dicho {
+        position: absolute;
+
+        top: 270px;
+        left: 140px;
+
+        width: 500px;
+
+        text-align: center;
+
+        color: #cd2530;
+
+        font-size: 50px;
+
+        line-height: 1.2;
+
+        font-family: "filson-soft", sans-serif;
+
+        font-weight: 700;
+
+        font-style: normal;
+
+        opacity: 0;
+
+        transition: opacity 0.8s ease;
+      }
+      .mostrar {
+        opacity: 1;
       }
     </style>
   </head>
+
   <body>
-    <div class="contenedor-total" id="contenedor">
-      <video id="fondo" autoplay muted loop playsinline>
+    <div class="contenedor">
+      <!-- VIDEO -->
+      <video autoplay muted loop playsinline id="fondoVideo">
         <source src="fondo.mp4" type="video/mp4" />
       </video>
 
-      <div class="contenedor-frase">
-        <div id="frase">Cargando frase...</div>
+      <!-- TEXTOS -->
+      <div id="nombres">
+        <div class="dicho"></div>
       </div>
     </div>
-
     <script>
-      const frases = [
-        "Aún estás a tiempo de empezar de nuevo.",
-        "Perdonar también te libera.",
-        "Agradecer cambia el día.",
-        "Alguien necesita tu ayuda hoy.",
-        "Una palabra amable cambia el día.",
-        "Hoy puedes elegir la calma.",
-        "Lo simple también transforma.",
-        "Ayudar también te cambia.",
-        "Un momento de silencio ayuda."
-      ];
-
-      const elemento = document.getElementById("frase");
-
-      function cambiarFrase() {
-        const randomIndex = Math.floor(Math.random() * frases.length);
-        elemento.textContent = frases[randomIndex];
-      }
-
-      cambiarFrase();
-      setInterval(cambiarFrase, 10000);
-
       function escalarPantalla() {
         const escalaX = window.innerWidth / 768;
         const escalaY = window.innerHeight / 768;
+
         const escala = Math.min(escalaX, escalaY);
-        document.getElementById("contenedor").style.transform = `scale(${escala})`;
+
+        document.querySelector(".contenedor").style.transform = `scale(${escala})`;
       }
 
       window.addEventListener("resize", escalarPantalla);
+      window.addEventListener("load", escalarPantalla);
+
       escalarPantalla();
+
+      const url =
+        "https://script.google.com/macros/s/AKfycbzwPsdGLy5kUFCS6T-J5LaXAsN8tPmV_h23cY9wNMb5-aJUj-fnhpsVya1oSLXGgjlelg/exec";
+
+      const elDicho = document.querySelector(".dicho");
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Datos recibidos:", data);
+
+          if (!data || data.length === 0) {
+            elDicho.textContent = "No hay frases aprobadas";
+            elDicho.classList.add("mostrar");
+            return;
+          }
+
+          let index = 0;
+
+          function mostrarMensaje() {
+            const item = data[index];
+
+            console.log("Frase actual:", item);
+
+            elDicho.classList.remove("mostrar");
+
+            setTimeout(() => {
+              elDicho.textContent = item || "";
+              elDicho.classList.add("mostrar");
+            }, 300);
+
+            index++;
+
+            if (index >= data.length) {
+              index = 0;
+            }
+          }
+
+          mostrarMensaje();
+
+          setInterval(mostrarMensaje, 5000);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+
+          elDicho.textContent = "Error cargando frases";
+          elDicho.classList.add("mostrar");
+        });
     </script>
   </body>
 </html>
