@@ -152,23 +152,18 @@
 
           let index = 0;
 
-          function mostrarMensaje() {
-            const item = data[index];
+        function mostrarMensaje() {
+  const item = data[Math.floor(Math.random() * data.length)];
 
-            console.log("Frase actual:", item);
+  console.log("Frase aleatoria:", item);
 
-            elDicho.classList.remove("mostrar");
+  elDicho.classList.remove("mostrar");
 
-            setTimeout(() => {
-              elDicho.textContent = item || "";
-              elDicho.classList.add("mostrar");
-            }, 300);
-
-            index++;
-
-            if (index >= data.length) {
-              index = 0;
-            }
+  setTimeout(() => {
+    elDicho.textContent = item || "";
+    elDicho.classList.add("mostrar");
+  }, 300);
+}
           }
 
           mostrarMensaje();
